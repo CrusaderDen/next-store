@@ -114,21 +114,24 @@
 
 import Link from "next/link";
 import {ProductWithShortDescription} from "@/pages/api/data/products-data";
-import {useEffect, useState} from "react";
 import s from './index.module.scss'
 
-const Products = () => {
-    const [products, setProducts] = useState([]);
+export const getServerSideProps = async () => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products`);
+    const products: ProductWithShortDescription = await response.json();
+    return {
+        props: {
+            products
+        }
+    }
+}
 
-    useEffect(() => {
-        const fetchProducts = async () => {
-            const response = await fetch('/api/products');
-            const data = await response.json();
-            setProducts(data);
-        };
+type ProductsListProps = {
+    products: ProductWithShortDescription[];
+}
 
-        void fetchProducts();
-    }, []);
+
+const ProductsList = ({products}: ProductsListProps) => {
 
     const productsList = products.map((product: ProductWithShortDescription) => (
         <li key={product.id}>
@@ -144,7 +147,7 @@ const Products = () => {
     );
 };
 
-export default Products
+export default ProductsList
 
 type ProductCardProps = {
     product: ProductWithShortDescription;
