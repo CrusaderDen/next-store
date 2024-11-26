@@ -113,7 +113,7 @@
 // }
 
 import Link from "next/link";
-import {Product} from "@/pages/api/data/products-data";
+import {ProductWithShortDescription} from "@/pages/api/data/products-data";
 import {useEffect, useState} from "react";
 import s from './index.module.scss'
 
@@ -121,7 +121,6 @@ const Products = () => {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        // Функция для получения списка товаров из API
         const fetchProducts = async () => {
             const response = await fetch('/api/products');
             const data = await response.json();
@@ -131,24 +130,34 @@ const Products = () => {
         void fetchProducts();
     }, []);
 
+    const productsList = products.map((product: ProductWithShortDescription) => (
+        <li key={product.id}>
+            <ProductsListCard product={product}/>
+        </li>
+    ))
+
     return (
         <div className={s.wrapper}>
-            <h1>Список товаров</h1>
-            <ul className={s.productsList}>
-                {products.map((product: Product) => (
-                    <li key={product.id}>
-                        <Link href={`/product/${product.id}`} className={s.listRow}>
-
-                            <h2 className={s.listItem}>{product.name}</h2>
-                            <p>Цена: {product.price} руб.</p>
-                            <p>{product.description}</p>
-
-                        </Link>
-                    </li>
-                ))}
-            </ul>
+            <h1 className={s.title}>Список товаров</h1>
+            <ul className={s.productsList}>{productsList}</ul>
         </div>
     );
 };
 
 export default Products
+
+type ProductCardProps = {
+    product: ProductWithShortDescription;
+}
+
+const ProductsListCard = ({product}: ProductCardProps) => {
+    return (
+        <Link href={`/product/${product.id}`} className={s.cardWrapper}>
+
+            <h2 className={s.listItem}>{product.name}</h2>
+            <p>Цена: {product.price} руб.</p>
+            <p>{product.description_short}</p>
+
+        </Link>
+    )
+}

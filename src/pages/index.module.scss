@@ -1,22 +1,45 @@
 .wrapper {
+  max-width: 1600px;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.title {
+  margin: 20px 0;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
 }
 
 .productsList {
-  margin-top: 50px;
   display: flex;
-  flex-direction: column;
   gap: 20px;
+  flex-wrap: wrap;
 }
 
-.listRow {
-  display: flex;
-  align-items: center;
-  gap: 20px;
+.cardWrapper {
+  max-width: 300px;
+  height: 400px;
   cursor: pointer;
+  border: 2px solid darkcyan;
+  transition: background-color 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  text-align: center;
+  font-size: 20px;
+
+  &:hover {
+    background-color: rgba(0, 139, 139, 0.35);
+  }
+
+  &:visited {
+    color: black;
+  }
 }
+
 
 .listItem {
   display: flex;
