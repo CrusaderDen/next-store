@@ -114,30 +114,23 @@
 
 import {ProductWithShortDescription} from "@/pages/api/data/products-data";
 import s from './index.module.scss'
-import {ChangeEvent, useEffect, useState} from "react";
-import Head from "next/head";
-import dynamic from 'next/dynamic';
+import {useEffect, useState} from "react";
+// import dynamic from 'next/dynamic';
+import {ProductsListHead} from "@/components/products-list/products-list-head/products-list-head";
+import {ProductsList} from "@/components/products-list/products-list";
+import {SearchInput} from "@/components/search-input/search-input";
 
-const debounce = (fn, ms) => {
-    let timerId
-    return function (...arg) {
-        clearTimeout(timerId)
-        timerId = setTimeout(() => {
-            fn(...arg)
-        }, ms)
-    }
-}
 
-const ProductsListCard = dynamic(() => import('@/components/products-list-card').then(mod => mod.ProductsListCard), {
-    ssr: false
-});
+// const ProductsList = dynamic(() => import('@/components/products-list/products-list-card/products-list-card').then(mod => mod.ProductsListCard), {
+//     ssr: false
+// });
 
 
 export const getServerSideProps = async () => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products`);
-    const products: ProductWithShortDescription = await response.json();
+    const products: ProductWithShortDescription[] = await response.json();
 
-    if (!products) return {
+    if (!products || products.length === 0) return {
         notFound: true,
     };
 
@@ -152,53 +145,27 @@ type ProductsListProps = {
     products: ProductWithShortDescription[];
 }
 
-const ProductsList = ({products}: ProductsListProps) => {
-    const [searchFieldValue, setSearchFieldValue] = useState('')
+const MainPage = ({products}: ProductsListProps) => {
+
     const [filteredProducts, setFilteredProducts] = useState(products)
-
-    const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setSearchFieldValue(e.target.value) //уйти от перерисовок
-    }
-
-
-    const debouncedSetFilteredProducts = debounce(setFilteredProducts, 300)
-
+    const [searchQuery, setSearchQuery] = useState('')
 
     useEffect(() => {
-        const filteredProducts = products.filter(product => product.name.trim().toLowerCase().startsWith(searchFieldValue.toLowerCase()));
-        debouncedSetFilteredProducts(filteredProducts)
-    }, [searchFieldValue]);
-
-
-    const productsList = filteredProducts.map((product: ProductWithShortDescription) => (
-        <li key={product.id}>
-            <ProductsListCard product={product}/>
-        </li>
-    ))
+        const filtered = products.filter(product => product.name.toLowerCase().startsWith(searchQuery.toLowerCase()));
+        setFilteredProducts(filtered)
+    }, [searchQuery, products]);
 
     return (
         <>
-            <Head>
-                <title>ЧАЙ</title>
-                <meta name="viewport" content="width=device-width, initial-scale=1"/>
-                <meta charSet="utf-8"/>
-                <meta name="description"
-                      content="Производитель и крупный поставщик лучших сортов чая оптом с доставкой по всей России. Огромный выбор весового чая и кофе! Одни из самых низких цен!"/>
-                <meta name="og:type" content="website"/>
-                <meta name="og:title" content="ЧАЙ"/>
-                <meta name="og:url" content="https://next-store.ivrupo.ru/"/>
-                <meta name="og:site_name" content="Чайная компания"/>
-                <meta name="format-detection" content="telephone=no"/>
-                <link rel="icon" href="/favicon.ico"/>
-            </Head>
+            <ProductsListHead/>
             <main className={s.wrapper}>
                 <h1 className={s.title}>Список товаров</h1>
-                <input placeholder={'Поиск по названию'} className={s.searchField} type={'text'} onChange={(e) => handleSearchInputChange(e)} value={searchFieldValue}/>
-                <ul className={s.productsList}>{productsList}</ul>
+                <SearchInput placeholder={'Поиск по названию'} setSearchQuery={setSearchQuery}/>
+                <ProductsList filteredProducts={filteredProducts}/>
             </main>
         </>
     );
 };
 
-export default ProductsList
+export default MainPage
 

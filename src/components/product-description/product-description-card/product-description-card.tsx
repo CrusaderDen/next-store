@@ -1,4 +1,4 @@
-import s from "@/pages/product/[id]/index.module.scss";
+import s from "./product-description-card.module.scss";
 import Image from "next/image";
 import {ProductWithLongDescription} from "@/pages/api/data/products-data";
 import {router} from "next/client";

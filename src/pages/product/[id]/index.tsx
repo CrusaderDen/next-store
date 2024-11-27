@@ -1,7 +1,7 @@
 import {ProductType} from './../../api/data/products-data'
 import {GetServerSideProps, GetServerSidePropsContext} from "next";
-import {ProductDescriptionHead} from "@/components/product-description-head";
-import {ProductDescriptionCard} from "@/components/product-description-card";
+import {ProductDescriptionHead} from "@/components/product-description/product-description-head/product-description-head";
+import {ProductDescriptionCard} from "@/components/product-description/product-description-card/product-description-card";
 import {API_PATH} from "@/consts/route-paths";
 
 type ProductDescriptionProps = {
