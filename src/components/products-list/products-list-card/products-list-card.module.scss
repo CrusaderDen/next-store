@@ -12,20 +12,21 @@
   font-size: 20px;
   margin: auto;
   border-radius: 10px;
-  background: rgba(248, 206, 181, 0.83);
+  color: #222222;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 
   &:hover {
-    background: rgba(255, 111, 97, 0.57);
+    background: rgba(213, 172, 94, 0.57); // Цвет фона при наведении для всех элементов
   }
 
   &:visited {
-    color: black;
+
   }
 }
 
-.title {
 
+.title {
+  font-weight: 600;
 }
 
 .description {

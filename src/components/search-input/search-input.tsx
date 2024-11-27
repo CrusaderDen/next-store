@@ -14,6 +14,7 @@ export const SearchInput = ({placeholder}: SearchInputProps) => {
     const {name} = router.query
     const [queryFlag, setQueryFlag] = useState(false)
     const [searchFieldValue, setSearchFieldValue] = useState('')
+
     const debounceSetSearchQuery = useDebounce((query: string) => {
         if (query === '') {
             void router.push(PATH.ROOT)
