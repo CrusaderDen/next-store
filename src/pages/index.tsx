@@ -113,12 +113,12 @@
 // }
 
 import {ProductWithShortDescription} from "@/pages/api/data/products-data";
-import s from './index.module.scss'
 import {useEffect, useState} from "react";
-// import dynamic from 'next/dynamic';
 import {ProductsListHead} from "@/components/products-list/products-list-head/products-list-head";
-import {ProductsList} from "@/components/products-list/products-list";
-import {SearchInput} from "@/components/search-input/search-input";
+import {ProductsMainContent} from "@/components/products-main-content/products-main-content";
+import {productService} from "@/services/product-service";
+import {useRouter} from "next/router";
+// import dynamic from 'next/dynamic';
 
 
 // const ProductsList = dynamic(() => import('@/components/products-list/products-list-card/products-list-card').then(mod => mod.ProductsListCard), {
@@ -127,8 +127,7 @@ import {SearchInput} from "@/components/search-input/search-input";
 
 
 export const getServerSideProps = async () => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products`);
-    const products: ProductWithShortDescription[] = await response.json();
+    const products = await productService.getProducts()
 
     if (!products || products.length === 0) return {
         notFound: true,
@@ -145,27 +144,37 @@ type ProductsListProps = {
     products: ProductWithShortDescription[];
 }
 
-const MainPage = ({products}: ProductsListProps) => {
+const ProductListPage = ({products}: ProductsListProps) => {
 
     const [filteredProducts, setFilteredProducts] = useState(products)
-    const [searchQuery, setSearchQuery] = useState('')
-
+    const router = useRouter();
+    const {name} = router.query
     useEffect(() => {
-        const filtered = products.filter(product => product.name.toLowerCase().startsWith(searchQuery.toLowerCase()));
-        setFilteredProducts(filtered)
-    }, [searchQuery, products]);
+        if (name) {
+            const fetchProducts = async () => {
+                console.log('if')
+                try {
+                    const filtered = await productService.getProducts(name as string);
+                    setFilteredProducts(filtered);
+                } catch (error) {
+                    console.error("Ошибка при получении отфильтрованных продуктов:", error);
+                }
+            }
+            void fetchProducts()
+        } else {
+            console.log('else')
+            setFilteredProducts(products)
+        }
+
+    }, [name, products]);
 
     return (
         <>
             <ProductsListHead/>
-            <main className={s.wrapper}>
-                <h1 className={s.title}>Список товаров</h1>
-                <SearchInput placeholder={'Поиск по названию'} setSearchQuery={setSearchQuery}/>
-                <ProductsList filteredProducts={filteredProducts}/>
-            </main>
+            <ProductsMainContent filteredProducts={filteredProducts}/>
         </>
     );
 };
 
-export default MainPage
+export default ProductListPage
 

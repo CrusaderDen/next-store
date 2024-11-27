@@ -4,6 +4,8 @@ import {details_4} from "@/pages/api/data/details-4";
 import {details_2} from "@/pages/api/data/details-2";
 import {details_3} from "@/pages/api/data/details-3";
 
+//data
+
 export const productsBase: ProductsBase[] = [
     {id: 1, name: 'Премиум "Граф Строганов"', price: 1278,},
     {id: 2, name: 'Жасминовый улун (Тайвань)', price: 2682},
@@ -21,13 +23,14 @@ export const productsDetails: ProductsDetails = {
 };
 
 //types
-type ProductsBase = {
+
+export type ProductsBase = {
     id: number
     name: string
     price: number
 };
 
-type ProductsDetails = Record<number, {
+export type ProductsDetails = Record<number, {
     description_short: string
     description_long: string
     image: string
@@ -39,10 +42,3 @@ export type ProductWithLongDescription = ProductsBase & {
     description_long: string;
     image: string;
 }
-
-type ProductVariant = 'short' | 'long';
-
-export type ProductType<T extends ProductVariant> =
-    T extends 'short' ? ProductWithShortDescription :
-        T extends 'long' ? ProductWithLongDescription :
-            never;
