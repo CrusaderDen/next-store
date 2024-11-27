@@ -1,36 +1,36 @@
-import {useRouter} from "next/router";
-import {useEffect, useState} from "react";
 import {ProductType} from './../../api/data/products-data'
-import s from "./index.module.scss";
+import {GetServerSideProps, GetServerSidePropsContext} from "next";
+import {ProductDescriptionHead} from "@/components/product-description-head";
+import {ProductDescriptionCard} from "@/components/product-description-card";
+import {API_PATH} from "@/consts/route-paths";
 
-const ProductDescription = () => {
-    const [product, setProduct] = useState<ProductType<'long'>>()
-    const router = useRouter();
-    const productId = router.query.id;
+type ProductDescriptionProps = {
+    product: ProductType<'long'>
+}
 
-    useEffect(() => {
-        if (productId) {
-            const fetchProduct = async () => {
-                const response = await fetch(`/api/products/${productId}`);
-                const data = await response.json();
-                setProduct(data);
-            }
-            void fetchProduct();
+export const getServerSideProps: GetServerSideProps<ProductDescriptionProps> = async (context: GetServerSidePropsContext) => {
+    const productId = context.query.id;
+    const response = await fetch(API_PATH.PRODUCTS + productId);
+    const product = await response.json();
+
+    if (!product.id) return {
+        notFound: true
+    };
+
+    return {
+        props: {
+            product
         }
-    }, [productId]);
-
-    if (!product) {
-        return null
     }
+}
+
+const ProductDescription = ({product}: ProductDescriptionProps) => {
 
     return (
-        <div className={s.cardWrapper}>
-            <button className={s.button} onClick={() => router.push('/')}>НА ГЛАВНУЮ</button>
-            <h2 className={s.title}>{product.name}</h2>
-            <p className={s.title}>Цена: {product.price} руб.</p>
-            <img src={product.image}/>
-            <p>{product.description_long}</p>
-        </div>
+        <>
+            <ProductDescriptionHead product={product}/>
+            <ProductDescriptionCard product={product}/>
+        </>
     )
 }
 
