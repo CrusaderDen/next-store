@@ -118,12 +118,6 @@ import {ProductsListHead} from "@/components/products-list/products-list-head/pr
 import {ProductsMainContent} from "@/components/products-main-content/products-main-content";
 import {productService} from "@/services/product-service";
 import {useRouter} from "next/router";
-// import dynamic from 'next/dynamic';
-
-
-// const ProductsList = dynamic(() => import('@/components/products-list/products-list-card/products-list-card').then(mod => mod.ProductsListCard), {
-//     ssr: false
-// });
 
 
 export const getServerSideProps = async () => {
@@ -149,10 +143,10 @@ const ProductListPage = ({products}: ProductsListProps) => {
     const [filteredProducts, setFilteredProducts] = useState(products)
     const router = useRouter();
     const {name} = router.query
+
     useEffect(() => {
         if (name) {
             const fetchProducts = async () => {
-                console.log('if')
                 try {
                     const filtered = await productService.getProducts(name as string);
                     setFilteredProducts(filtered);
@@ -162,7 +156,6 @@ const ProductListPage = ({products}: ProductsListProps) => {
             }
             void fetchProducts()
         } else {
-            console.log('else')
             setFilteredProducts(products)
         }
 
