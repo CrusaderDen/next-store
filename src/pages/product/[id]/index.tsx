@@ -11,7 +11,6 @@ const ProductDescription = () => {
     useEffect(() => {
         if (productId) {
             const fetchProduct = async () => {
-                console.log(`/api/products/${productId}`)
                 const response = await fetch(`/api/products/${productId}`);
                 const data = await response.json();
                 setProduct(data);

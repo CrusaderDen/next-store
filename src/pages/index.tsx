@@ -115,6 +115,7 @@
 import Link from "next/link";
 import {ProductWithShortDescription} from "@/pages/api/data/products-data";
 import s from './index.module.scss'
+import {ChangeEvent, useEffect, useState} from "react";
 
 export const getServerSideProps = async () => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products`);
@@ -132,8 +133,20 @@ type ProductsListProps = {
 
 
 const ProductsList = ({products}: ProductsListProps) => {
+    const [searchFieldValue, setSearchFieldValue] = useState('')
+    const [filteredProducts, setFilteredProducts] = useState(products)
 
-    const productsList = products.map((product: ProductWithShortDescription) => (
+    const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setSearchFieldValue(e.target.value)
+    }
+
+    useEffect(() => {
+        const filteredProducts = products.filter(product => product.name.trim().toLowerCase().startsWith(searchFieldValue.toLowerCase()));
+        setFilteredProducts(filteredProducts)
+    }, [searchFieldValue]);
+
+
+    const productsList = filteredProducts.map((product: ProductWithShortDescription) => (
         <li key={product.id}>
             <ProductsListCard product={product}/>
         </li>
@@ -142,6 +155,7 @@ const ProductsList = ({products}: ProductsListProps) => {
     return (
         <div className={s.wrapper}>
             <h1 className={s.title}>Список товаров</h1>
+            <input placeholder={'Поиск по названию'} className={s.searchField} type={'text'} onChange={(e) => handleSearchInputChange(e)} value={searchFieldValue}/>
             <ul className={s.productsList}>{productsList}</ul>
         </div>
     );
@@ -156,11 +170,9 @@ type ProductCardProps = {
 const ProductsListCard = ({product}: ProductCardProps) => {
     return (
         <Link href={`/product/${product.id}`} className={s.cardWrapper}>
-
             <h2 className={s.listItem}>{product.name}</h2>
             <p>Цена: {product.price} руб.</p>
             <p>{product.description_short}</p>
-
         </Link>
     )
 }
