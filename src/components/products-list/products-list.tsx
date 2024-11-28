@@ -1,6 +1,6 @@
 import React from 'react';
-import {ProductWithShortDescription} from "@/pages/api/data/products-data";
-import {ProductsListCard} from "@/components/products-main-content/products-list/products-list-card/products-list-card";
+import {ProductWithShortDescription} from "@/backend/data/products-data";
+import {ProductsListCard} from "@/components/products-list/products-list-card/products-list-card";
 import s from "./products-list.module.scss";
 
 type ProductsListProps = {

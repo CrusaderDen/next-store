@@ -1,8 +1,8 @@
-import {details_1} from "@/pages/api/data/details-1";
-import {details_5} from "@/pages/api/data/details-5";
-import {details_4} from "@/pages/api/data/details-4";
-import {details_2} from "@/pages/api/data/details-2";
-import {details_3} from "@/pages/api/data/details-3";
+import {details_1} from "@/backend/data/details-1";
+import {details_5} from "@/backend/data/details-5";
+import {details_4} from "@/backend/data/details-4";
+import {details_2} from "@/backend/data/details-2";
+import {details_3} from "@/backend/data/details-3";
 
 //data
 
@@ -15,6 +15,7 @@ export const productsBase: ProductsBase[] = [
 ];
 
 export const productsDetails: ProductsDetails = {
+    // Декомпозиция деталей в отдельные файлы. На случай, если буду добавлять в "базу данных" больше продуктов.
     1: details_1,
     2: details_2,
     3: details_3,

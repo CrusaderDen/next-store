@@ -1,10 +1,14 @@
-import {ProductWithShortDescription} from "@/pages/api/data/products-data";
-import {useEffect, useState} from "react";
-import {ProductsListHead} from "@/components/products-main-content/products-list/products-list-head/products-list-head";
-import {ProductsMainContent} from "@/components/products-main-content/products-main-content";
+import {ProductWithShortDescription} from "@/backend/data/products-data";
+import React, {useEffect, useState} from "react";
+import {ProductsListHead} from "@/components/products-list/products-list-head/products-list-head";
 import {productService} from "@/services/product-service";
 import {useRouter} from "next/router";
+import s from "./index.module.scss";
 
+import dynamic from "next/dynamic";
+
+const DynamicSearchInput = dynamic(() => import('@/components/search-input/search-input').then(mod => mod.SearchInput));
+const DynamicProductsList = dynamic(() => import('@/components/products-list/products-list').then(mod => mod.ProductsList));
 
 export const getServerSideProps = async () => {
     const products = await productService.getProducts()
@@ -51,7 +55,11 @@ const ProductListPage = ({products}: ProductsListProps) => {
     return (
         <>
             <ProductsListHead/>
-            <ProductsMainContent filteredProducts={filteredProducts}/>
+            <main className={s.wrapper}>
+                <h1 className={s.title}>Список товаров</h1>
+                <DynamicSearchInput placeholder={'Поиск по названию'}/>
+                <DynamicProductsList filteredProducts={filteredProducts}/>
+            </main>
         </>
     );
 };

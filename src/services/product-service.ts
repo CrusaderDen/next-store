@@ -1,5 +1,5 @@
 import {API_PATH} from "@/consts/route-paths";
-import {ProductWithLongDescription, ProductWithShortDescription} from "@/pages/api/data/products-data";
+import {ProductWithLongDescription, ProductWithShortDescription} from "@/backend/data/products-data";
 
 export const productService = {
     async getProducts(name?: string): Promise<ProductWithShortDescription[]> {

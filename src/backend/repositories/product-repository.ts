@@ -1,11 +1,7 @@
-import {ProductsBase, ProductsDetails} from "@/pages/api/data/products-data";
+import {productsBase, productsDetails} from "@/backend/data/products-data";
 
 export const productRepository = {
-    getProducts(
-        productsBase: ProductsBase[],
-        productsDetails: ProductsDetails,
-        searchQuery?: string
-    ) {
+    getProducts(searchQuery?: string) {
         let filteredProducts = productsBase
         if (searchQuery) {
             filteredProducts = productsBase.filter(product => product.name.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -15,7 +11,7 @@ export const productRepository = {
         });
     },
 
-    getProductById(id: string, productsBase: ProductsBase[], productsDetails: ProductsDetails) {
+    getProductById(id: string) {
         const currentProduct = productsBase.find((product) => product.id === parseInt(id));
         if (currentProduct) {
             return {

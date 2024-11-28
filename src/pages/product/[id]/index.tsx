@@ -1,7 +1,7 @@
-import {ProductWithLongDescription} from './../../api/data/products-data'
+import {ProductWithLongDescription} from '@/backend/data/products-data'
 import {GetServerSideProps, GetServerSidePropsContext} from "next";
-import {ProductDescriptionHead} from "@/components/product-description/product-description-head/product-description-head";
-import {ProductDescriptionCard} from "@/components/product-description/product-description-card/product-description-card";
+import {ProductDetailsHead} from "@/components/product-details/product-details-head/product-details-head";
+import {ProductDetailsCard} from "@/components/product-details/product-details-card/product-details-card";
 import {productService} from "@/services/product-service";
 
 type ProductDescriptionProps = {
@@ -28,8 +28,8 @@ const ProductDescription = ({product}: ProductDescriptionProps) => {
 
     return (
         <>
-            <ProductDescriptionHead product={product}/>
-            <ProductDescriptionCard product={product}/>
+            <ProductDetailsHead product={product}/>
+            <ProductDetailsCard product={product}/>
         </>
     )
 }

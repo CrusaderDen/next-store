@@ -1,6 +1,6 @@
-import {productsBase, productsDetails, ProductWithLongDescription} from "@/pages/api/data/products-data";
+import {ProductWithLongDescription} from "@/backend/data/products-data";
 import type {NextApiRequest, NextApiResponse} from "next";
-import {productRepository} from "@/pages/api/repositories/product-repository";
+import {productRepository} from "@/backend/repositories/product-repository";
 
 export default function handler(
     req: NextApiRequest,
@@ -8,7 +8,7 @@ export default function handler(
 ) {
     if (req.method === 'GET') {
         const {id} = req.query;
-        const product = productRepository.getProductById(id as string, productsBase, productsDetails)
+        const product = productRepository.getProductById(id as string)
         if (product) {
             res.status(200).json(product);
         } else {

@@ -1,6 +1,6 @@
-import s from "./product-description-card.module.scss";
+import s from "./product-details-card.module.scss";
 import Image from "next/image";
-import {ProductWithLongDescription} from "@/pages/api/data/products-data";
+import {ProductWithLongDescription} from "@/backend/data/products-data";
 import {router} from "next/client";
 import {PATH} from "@/consts/route-paths";
 
@@ -8,7 +8,7 @@ type ProductDescriptionCardProps = {
     product: ProductWithLongDescription
 }
 
-export const ProductDescriptionCard = ({product}: ProductDescriptionCardProps) => {
+export const ProductDetailsCard = ({product}: ProductDescriptionCardProps) => {
     return (
         <article className={s.cardWrapper}>
             <header className={s.header}>

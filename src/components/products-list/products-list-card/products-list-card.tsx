@@ -1,4 +1,4 @@
-import {ProductWithShortDescription} from "@/pages/api/data/products-data";
+import {ProductWithShortDescription} from "@/backend/data/products-data";
 import Link from "next/link";
 import s from "./products-list-card.module.scss";
 import {PATH} from "@/consts/route-paths";

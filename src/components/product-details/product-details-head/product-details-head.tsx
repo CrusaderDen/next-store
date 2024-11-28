@@ -1,11 +1,11 @@
 import Head from "next/head";
-import {ProductWithLongDescription} from "@/pages/api/data/products-data";
+import {ProductWithLongDescription} from "@/backend/data/products-data";
 
 type ProductDescriptionHeadProps = {
     product: ProductWithLongDescription
 }
 
-export const ProductDescriptionHead = ({product}: ProductDescriptionHeadProps) => {
+export const ProductDetailsHead = ({product}: ProductDescriptionHeadProps) => {
     return (
         <Head>
             <title>{product.name}</title>

@@ -1,6 +1,6 @@
 import type {NextApiRequest, NextApiResponse} from "next";
-import {productsBase, productsDetails, ProductWithShortDescription} from "@/pages/api/data/products-data";
-import {productRepository} from "@/pages/api/repositories/product-repository";
+import {ProductWithShortDescription} from "@/backend/data/products-data";
+import {productRepository} from "@/backend/repositories/product-repository";
 
 export default function handler(
     req: NextApiRequest,
@@ -8,7 +8,7 @@ export default function handler(
 ) {
     if (req.method === 'GET') {
         const searchQuery = req.query.name || '';
-        const products = productRepository.getProducts(productsBase, productsDetails, searchQuery as string)
+        const products = productRepository.getProducts(searchQuery as string)
         res.status(200).json(products);
     } else {
         res.setHeader('Allow', ['GET']);
