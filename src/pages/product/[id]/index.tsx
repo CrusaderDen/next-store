@@ -1,8 +1,7 @@
 import {ProductWithLongDescription} from '@/backend/data/products-data'
 import {GetServerSideProps, GetServerSidePropsContext} from "next";
-import {ProductDetailsHead} from "@/components/product-details/product-details-head/product-details-head";
-import {ProductDetailsCard} from "@/components/product-details/product-details-card/product-details-card";
 import {productService} from "@/services/product-service";
+import {ProductDetailsCard, ProductDetailsHead} from "@/components/product-details";
 
 type ProductDescriptionProps = {
     product: ProductWithLongDescription

@@ -1,7 +1,7 @@
 import React from 'react';
 import {ProductWithShortDescription} from "@/backend/data/products-data";
-import {ProductsListCard} from "@/components/products-list/products-list-card/products-list-card";
 import s from "./products-list.module.scss";
+import {ProductsListCard} from "@/components/products-list/products-list-card";
 
 type ProductsListProps = {
     filteredProducts: ProductWithShortDescription[]

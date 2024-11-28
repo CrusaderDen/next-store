@@ -14,14 +14,15 @@ zero styles
   box-sizing: border-box;
 }
 
+html {
+  padding: 10px;
+}
+
 body {
-  min-height: 100vh;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
   background-color: #eaeaea;
   font-family: 'Roboto', sans-serif;
-  padding: 10px;
+  display: flex;
+  justify-content: center;
 }
 
 /* Links */

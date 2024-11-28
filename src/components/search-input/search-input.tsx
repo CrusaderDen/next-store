@@ -2,14 +2,14 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import s from './search-input.module.scss'
 import {useDebounce} from "@/hooks/useDebounce";
 import {useRouter} from "next/router";
-import {PATH} from "@/consts/route-paths";
 
 
 type SearchInputProps = {
     placeholder: string
+    debounceInterval: number
 }
 
-export const SearchInput = ({placeholder}: SearchInputProps) => {
+export const SearchInput = ({placeholder, debounceInterval}: SearchInputProps) => {
     const router = useRouter();
     const {name} = router.query
     const [queryFlag, setQueryFlag] = useState(false)
@@ -18,7 +18,7 @@ export const SearchInput = ({placeholder}: SearchInputProps) => {
     const debounceSetSearchQuery = useDebounce((query: string) => {
         //если query-параметр пустой, убираю его из адресной строки
         if (query === '') {
-            void router.push(PATH.ROOT)
+            void router.push(router.pathname)
         } else {
             //иначе, записываю в адресную строку актуальное состояние запроса
             void router.push({
@@ -26,7 +26,7 @@ export const SearchInput = ({placeholder}: SearchInputProps) => {
                 query: {...router.query, name: query},
             }, undefined, {shallow: true});
         }
-    }, 300)
+    }, debounceInterval)
 
 
     const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
