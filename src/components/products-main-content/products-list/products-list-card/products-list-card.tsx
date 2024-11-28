@@ -9,10 +9,14 @@ type ProductCardProps = {
 
 export const ProductsListCard = ({product}: ProductCardProps) => {
     return (
-        <Link href={PATH.PRODUCT + product.id} className={s.cardWrapper}>
-            <h2 className={s.title}>{product.name}</h2>
-            <p className={s.description}>{product.description_short}</p>
-            <p className={s.price}>Цена: {product.price} руб.</p>
-        </Link>
+        <article className={s.cardWrapper}>
+            <Link href={PATH.PRODUCT + product.id} className={s.link}>
+                <header>
+                    <h2 className={s.title}>{product.name}</h2>
+                </header>
+                <p className={s.description}>{product.description_short}</p>
+                <p className={s.price}>Цена: {product.price} руб.</p>
+            </Link>
+        </article>
     )
 }
