@@ -1,40 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+## Запуск приложения - npm run dev
 
-## Getting Started
+# Описание приложения и принятых решений
 
-First, run the development server:
+## 1. Используемые технологии
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Приложение реализовано с использованием TypeScript.
+- Для стилизации использованы CSS-модули и SASS в синтаксисе SCSS.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 2. Архитектура API
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+- Данные по товарам организованы в две структуры, связанные по ID.
+- Созданы следующие эндпоинты:
+    - `/api/products` — возвращает список товаров.
+    - `/api/products/[id]` — возвращает детали товара по его ID.
+- Методы для работы со структурами данных вынесены в объект-репозиторий.
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## 3. Роутинг
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+- Роуты вынесены в отдельные объекты:
+    - `PATH`
+    - `API_PATH`
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 4. Запросы к API
 
-## Learn More
+- Запросы к API организованы в сервисный объект.
 
-To learn more about Next.js, take a look at the following resources:
+## 5. Главная страница
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+- Главная страница включает:
+    - Заголовок.
+    - Строку поиска.
+    - Список товаров (название, цена, краткое описание).
+- Первоначальная загрузка страницы осуществляется с использованием Server-Side Rendering (SSR).
+- Страница товара открывается по динамическому роуту и также использует SSR, включает карточку товара с названием,
+  ценой, изображением и подробным описанием.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 6. Поиск
 
-## Deploy on Vercel
+- При вводе текста в поле `input` создается query-параметр `name` с текущим значением строки поиска (при очистке строки
+  параметр удаляется).
+- Логика фильтрации:
+    - Если параметр `name` присутствует, выполняется GET-запрос к API с query-параметром, возвращая нужные товары.
+      Фильтрация осуществляется на сервере, так как при использовании пагинации, пользователю могут быть загружены не
+      все товары.
+    - Пользователь может скопировать адресную строку и переслать ее другому пользователю, что позволит сразу отобразить
+      товары с нужной фильтрацией (строка поиска автоматически подставится в поле `input`)
+    - Поиск осуществляется с дебаунсом 300 мс при вводе текста.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 7. Лоадер
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+- Добавлен лоадер для переключения между страницами, привязанный к изменению роута.
+- Лоадер отключается при изменении query-параметров (например, набор текста в `input`), чтобы избежать слишком частых
+  срабатываний.
+
+## 8. Управление состоянием
+
+- В текущей реализации использование React Context или других механизмов для управления состоянием приложения посчитал
+  избыточным(хотя в требованиях есть). Вроде нет ничего, что можно было бы вынести в это состояние.
+
+## 9. Оптимизации
+
+- Для оптимизации изображений задействован встроенный в Next.js компонент `Image`.
+- Использованы динамические импорты для компонент SearchInput и DynamicProductsList, для максимального быстрого
+  отображения страницы ProductsMainContent, где пользователь может увидеть список товаров. Скрипты для SearchInput и
+  DynamicProductsList будут загружены, если пользователь начнет с ними взаимодействовать. То есть, например, при первом
+  клике на какую-то карточку товара пользователь подождет чуть дольше, подгрузится необходимый скрипт.
