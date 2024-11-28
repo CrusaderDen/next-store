@@ -16,9 +16,11 @@ export const SearchInput = ({placeholder}: SearchInputProps) => {
     const [searchFieldValue, setSearchFieldValue] = useState('')
 
     const debounceSetSearchQuery = useDebounce((query: string) => {
+        //если query-параметр пустой, убираю его из адресной строки
         if (query === '') {
             void router.push(PATH.ROOT)
         } else {
+            //иначе, записываю в адресную строку актуальное состояние запроса
             void router.push({
                 pathname: router.pathname,
                 query: {...router.query, name: query},
