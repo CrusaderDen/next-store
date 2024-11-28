@@ -114,7 +114,7 @@
 
 import {ProductWithShortDescription} from "@/pages/api/data/products-data";
 import {useEffect, useState} from "react";
-import {ProductsListHead} from "@/components/products-list/products-list-head/products-list-head";
+import {ProductsListHead} from "@/components/products-main-content/products-list/products-list-head/products-list-head";
 import {ProductsMainContent} from "@/components/products-main-content/products-main-content";
 import {productService} from "@/services/product-service";
 import {useRouter} from "next/router";
@@ -144,6 +144,7 @@ const ProductListPage = ({products}: ProductsListProps) => {
     const router = useRouter();
     const {name} = router.query
 
+    //выполняется запрос и обновляется состояние продуктов, если задан query-параметр name
     useEffect(() => {
         if (name) {
             const fetchProducts = async () => {
@@ -156,7 +157,7 @@ const ProductListPage = ({products}: ProductsListProps) => {
             }
             void fetchProducts()
         } else {
-            setFilteredProducts(products)
+            setFilteredProducts(products) //возвращаются все продукты, если query-параметр name больше не задан
         }
 
     }, [name, products]);

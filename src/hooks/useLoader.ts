@@ -7,7 +7,14 @@ export const useLoader = () => {
     const router = useRouter()
 
     useEffect(() => {
-        const startLoading = () => NProgress.start()
+        // лоадер не срабатывает, если только query-параметры изменились
+        const startLoading = (url: string) => {
+            console.log(url, router.pathname)
+            const isQueryChange = url.split('?')[0] === router.pathname;
+            if (!isQueryChange) {
+                NProgress.start();
+            }
+        };
         const endLoading = () => NProgress.done()
 
         router.events.on('routeChangeStart', startLoading)

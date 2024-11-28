@@ -8,9 +8,7 @@ export const productRepository = {
     ) {
         let filteredProducts = productsBase
         if (searchQuery) {
-            filteredProducts = productsBase.filter(product =>
-                product.name.slice(0, searchQuery.length).toLowerCase() === searchQuery.toLowerCase()
-            );
+            filteredProducts = productsBase.filter(product => product.name.toLowerCase().includes(searchQuery.toLowerCase()));
         }
         return filteredProducts.map(product => {
             return {...product, description_short: productsDetails[product.id].description_short};

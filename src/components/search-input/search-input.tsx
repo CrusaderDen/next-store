@@ -31,6 +31,8 @@ export const SearchInput = ({placeholder}: SearchInputProps) => {
         setSearchFieldValue(e.target.value)
     }
 
+    // Флаг для случая, если пользователь ввел путь с query-параметром в адресную строку.
+    // При этом значение из параметра name сразу подставится в инпут.
     useEffect(() => {
         if (name && !queryFlag) {
             setSearchFieldValue(name as string)

@@ -13,16 +13,14 @@ export const ProductDescriptionCard = ({product}: ProductDescriptionCardProps) =
         <div className={s.cardWrapper}>
             <button className={s.button} onClick={() => router.push(PATH.ROOT)}>НА ГЛАВНУЮ</button>
             <h2 className={s.title}>{product.name}</h2>
-            <p className={s.title}>Цена: {product.price} руб.</p>
+            <p className={s.price}>Цена: {product.price} руб.</p>
             <Image
                 src={product.image}
                 alt="Изображение товара"
                 width={300}
                 height={300}
-                // placeholder="blur"
-                // blurDataURL={product.blurDataURL}
             />
-            <p>{product.description_long}</p>
+            <p className={s.description}>{product.description_long}</p>
         </div>
     );
 };

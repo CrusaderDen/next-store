@@ -5,7 +5,7 @@
   align-items: center;
   margin: 50px 15px 0;
   gap: 30px;
-  border: 2px solid darkcyan;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   padding: 30px;
 }
 
@@ -16,12 +16,21 @@
 }
 
 .button {
-  border: 1px solid violet;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
   padding: 20px;
   margin: 20px;
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: rgba(238, 130, 238, 0.35);
+    background-color: rgba(213, 172, 94, 0.57);
   }
+}
+
+.price {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.description {
+  line-height: 1.8;
 }
