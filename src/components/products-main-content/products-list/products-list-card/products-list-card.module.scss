@@ -1,7 +1,5 @@
-.cardWrapper {
+.card {
   cursor: pointer;
-  display: flex;
-  align-items: center;
   padding-left: 30px;
   max-width: 1200px;
   height: 80px;
@@ -11,18 +9,15 @@
   color: #222222;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   transition: background 0.3s;
-
-  &:hover {
-    background: rgba(213, 172, 94, 0.57);
-  }
-}
-
-.link {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   justify-items: start;
   align-items: center;
   width: 100%;
+
+  &:hover {
+    background: rgba(213, 172, 94, 0.57);
+  }
 }
 
 .title {
