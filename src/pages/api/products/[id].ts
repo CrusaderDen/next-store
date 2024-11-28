@@ -2,13 +2,13 @@ import {productsBase, productsDetails, ProductWithLongDescription} from "@/pages
 import type {NextApiRequest, NextApiResponse} from "next";
 import {productRepository} from "@/pages/api/repositories/product-repository";
 
-export default async function handler(
+export default function handler(
     req: NextApiRequest,
     res: NextApiResponse<ProductWithLongDescription | { message: string }>
 ) {
     if (req.method === 'GET') {
         const {id} = req.query;
-        const product = await productRepository.getProductById(id as string, productsBase, productsDetails)
+        const product = productRepository.getProductById(id as string, productsBase, productsDetails)
         if (product) {
             res.status(200).json(product);
         } else {

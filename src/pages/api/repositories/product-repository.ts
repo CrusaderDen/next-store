@@ -1,7 +1,7 @@
 import {ProductsBase, ProductsDetails} from "@/pages/api/data/products-data";
 
 export const productRepository = {
-    async getProducts(
+    getProducts(
         productsBase: ProductsBase[],
         productsDetails: ProductsDetails,
         searchQuery?: string
@@ -15,7 +15,7 @@ export const productRepository = {
         });
     },
 
-    async getProductById(id: string, productsBase: ProductsBase[], productsDetails: ProductsDetails) {
+    getProductById(id: string, productsBase: ProductsBase[], productsDetails: ProductsDetails) {
         const currentProduct = productsBase.find((product) => product.id === parseInt(id));
         if (currentProduct) {
             return {
